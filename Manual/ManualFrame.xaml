@@ -1,0 +1,101 @@
+﻿<Page
+    x:Class="PDTestSerial.Manual.ManualFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PDTestSerial.Manual"
+    xmlns:model="using:PDTestSerial.Model"
+    xmlns:Converter="using:PDTestSerial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Converter:IntToStringConverter x:Key="StringToIntConverter"/>
+    </Page.Resources>
+
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot x:Name="rootPivot" Padding="5">
+            <PivotItem Header="Servo Setting">
+                <Grid  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <!--<ColumnDefinition Width="*"/>-->
+                    </Grid.ColumnDefinitions>
+                    <!--PDJIG Setting-->
+                    <StackPanel>
+                        <TextBlock Text="PD Setting" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <TextBlock >
+                            <Run Text="Current Pos:"/>
+                            <Run Text="{x:Bind CurrentPos, Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <GridView Name="PDPositions" IsEnabled="False" ItemsSource="{x:Bind JigModels}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="model:PDJig">
+                                    <Grid Padding="5" BorderBrush="DarkGray" BorderThickness="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="SemiBold" FontSize="18">                                                
+                                                <Run Text="{x:Bind Jig.JigDesciption}"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Grid Grid.Row="1">
+                                            <TextBox Text="{x:Bind Jig.JigPos, Mode=TwoWay, Converter={StaticResource StringToIntConverter}}"/>
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                            <StackPanel>
+                                                <Button Content="Pack" Click="Pack_Click"/>
+                                                <Button Content="UnPack" Click="UnPack_Click"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <Button Content="GetPos" IsDoubleTapEnabled="True" DoubleTapped="GetPos_DoubleClick" Tag="{x:Bind Jig.Instance}" />
+                                                <Button Content="MovePos" Click="MovePos_Click" Tag="{x:Bind Jig.Instance}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </Grid>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="&#x1f845;Up" Width="65" Background="SlateGray"/>
+                                <Button Content="&#x2b85;Vc" Width="65" Background="SlateGray"/>
+                                <Button Content="&#x1f847;Down" Width="65"  Background="SlateGray"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="&#x21BA; CCW" Background="SlateGray" Height="40"/>
+                                <Button Content="&#x21BB; CW" Background="SlateGray" Height="40"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Name="LeftButton" Content="&#x1f844;Left" Background="BlueViolet"/>
+                                <Button Name="RightButton" Content="&#x1f846;Right" Background="BlueViolet"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Name="FLeftButton" Content="&#x1f844;&#x1f844;Left" Background="BlueViolet"/>
+                                <Button Name="FRightButton" Content="&#x1f846;&#x1f846;Right" Background="BlueViolet"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </PivotItem>
+
+            <PivotItem Header="Cylinder">
+
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>

@@ -1,0 +1,140 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="PDTestSerial.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PDTestSerial"
+    xmlns:uct="using:PDTestSerial.UCT"
+    xmlns:serial ="using:Windows.Devices.Enumeration"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <uct:TestResultToColorConverter x:Key="TestResultToColor"/>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Frame x:ConnectionId='27' Name="MainFrame"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:ConnectionId='23' Content="Auto" 
+                        Name="AutoButton" 
+                                                    
+                        Style="{StaticResource OnTopButtonStyle}"/>
+                <Button x:ConnectionId='24' Content="I/O Monitor" 
+                        Name="IOMonitorButton"
+                                                    
+                        Style="{StaticResource OnTopButtonStyle}"/>
+                <Button x:ConnectionId='25' Content="Setting/Manual" 
+                        Name="SettingManualButton" 
+                                                    
+                        Style="{StaticResource OnTopButtonStyle}"/>
+                <!--<Button Content="Servo Setting" Style="{StaticResource OnTopButtonStyle}"/>-->
+                <!--<Button Content="Teaching" Style="{StaticResource OnTopButtonStyle}"/>-->
+                <Button x:ConnectionId='26' Content="Serial Setting" 
+                        Name="SerialSettingButton"
+                        Style="{StaticResource OnTopButtonStyle}"                        />
+            </StackPanel>
+        </Grid>
+        <ContentDialog x:ConnectionId='2' Visibility="Collapsed" Name="SettingDialog"                  
+                       IsPrimaryButtonEnabled="False" 
+                       PrimaryButtonText="OK"                                                      
+                       SecondaryButtonText="Close" IsSecondaryButtonEnabled="True"
+                       MaxWidth="800" >
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="Setting" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Padding="10" Width="200">
+                            <TextBlock Text="SW Setting" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                            <ToggleSwitch x:ConnectionId='16' Header="USB 3.0 Device Test"                                        />
+                            <ToggleSwitch x:ConnectionId='17' Header="USB 3.0 OTG Test"                                        />
+                            <ToggleSwitch x:ConnectionId='18' Header="USB 2.0 OTG Test"                                        />
+                            <ToggleSwitch x:ConnectionId='19' Header="PDC Test"                                        />
+                            <ToggleSwitch x:ConnectionId='20' Header="LOAD Test"                                         />
+                            <ToggleSwitch x:ConnectionId='21' Header="VCONN Test"                                          />
+                            <ToggleSwitch x:ConnectionId='22' Header="SBU Test"                                        />
+                        </StackPanel>
+                        <StackPanel Padding="10" Width="300">
+                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Select COM port"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <Rectangle Width="Auto" Height="1" Fill="Gray" Margin="0,5,0,5"/>
+                                <TextBlock Text="UCT Communication"/>
+                                <ComboBox x:ConnectionId='4' 
+                                    Name="ListCOMPort1"                           
+                                    HorizontalAlignment="Stretch" 
+                                                                               
+                                                                        >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate                                      >
+                                            <TextBlock x:ConnectionId='15'                                  />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:ConnectionId='13' Content="Connect" Name="TryButton1"                  />
+                                    <TextBlock x:ConnectionId='14' Text="UCT Status" Name="UCTStatus" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Rectangle Width="Auto" Height="1" Fill="Gray" Margin="0,5,0,5"/>
+                                <TextBlock Text="Servo Communication"/>
+                                <ComboBox x:ConnectionId='5' 
+                                    Name="ListCOMPort2"                           
+                                    HorizontalAlignment="Stretch" 
+                                                                                
+                                                                        >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate                                      >
+                                            <TextBlock x:ConnectionId='12'                                  />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:ConnectionId='10' Content="Connect" Name="TryButton2"                   />
+                                    <TextBlock x:ConnectionId='11' Text="Motor" Name="MotorStatus" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Rectangle Width="Auto" Height="1" Fill="Gray" Margin="0,5,0,5"/>
+                                <TextBlock Text="Servo Communication"/>
+                                <ComboBox x:ConnectionId='6' 
+                                    Name="ListCOMPort3"                           
+                                    HorizontalAlignment="Stretch" 
+                                                                               
+                                                                        >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate                                      >
+                                            <TextBlock x:ConnectionId='9'                                  />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:ConnectionId='7' Content="Connect" Name="TryButton3"                   />
+                                    <TextBlock x:ConnectionId='8' Text="GPIO" Name="GPIOStatus" VerticalAlignment="Center"/>
+
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ContentDialog>
+        <ContentDialog x:ConnectionId='3' Name="IOMonitorDialog"                       
+                       Title="IO Monitor Window"
+                       MaxWidth="1024" MinHeight="720"
+                       SecondaryButtonText="Close" IsSecondaryButtonEnabled="True">
+            <local:IOMonitor/>
+        </ContentDialog>
+    </Grid>
+</Page>
+
